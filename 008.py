@@ -9,6 +9,5 @@ for i in range(len(longNumber) - 13):
     substring = longNumber[i:i+13]
     ints = [int(x) for x in substring]
     product = functools.reduce((lambda x, y: x * y), ints)
-    if product > max_product:
-        max_product = product
+    max_product = max(max_product, product)
 print(max_product)

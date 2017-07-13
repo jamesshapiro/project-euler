@@ -2,6 +2,12 @@
 
 import math
 
+"""
+Note: This solution is inefficient, but it does get the job
+done in just under a minute. I may work on trying to improve
+it further
+"""
+
 def is_prime(x):
     if x == 1:
         return False
@@ -14,15 +20,19 @@ def is_prime(x):
 
 primes = [x for x in range(1,1000001) if is_prime(x)]
 largest_prime = primes[-1]
-longest_range = 6
-print(largest_prime)
-print(sum(primes[0:550]))
-for i in range(6,550):
-    print(i)
-    for j in range(0, len(primes) - i):
-        window = sum(primes[j:j+i])
-        if window in primes:
-            longest_range = i
-            print(i, primes[j:j+i])
-print(longest_range)
-#999983
+longest_range = 21
+longest_range_prime = 953
+
+for prime in primes:
+    next_window = False
+    for i in range(longest_range+2, 550, 2):
+        for j in range(0, len(primes) - i):
+            window = sum(primes[j:j+i])
+            if window > prime:
+                break
+            elif window == prime:
+                longest_range = i
+                longest_range_prime = prime
+
+print(longest_range_prime)
+
