@@ -1,10 +1,14 @@
 #!/usr/bin/env python3 -tt
 
+import itertools
+
+def is_palindrome(num):
+    return str(num) == str(num)[::-1]
+
 max_product = 0
-for i in range(100,1000):
-    for j in range(100,1000):
-        product = i*j
-        stringified = str(product)
-        if stringified == stringified[::-1] and product > max_product:
-            max_product = product
-print(max_product)
+three_digit_nums = range(100,1000)
+
+palindromes = (x*y for (x,y) in itertools.product(three_digit_nums, repeat=2)
+               if is_palindrome(x*y))
+
+print(max(palindromes))

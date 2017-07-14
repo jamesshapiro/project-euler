@@ -24,15 +24,17 @@ grid = [[8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8]
  [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]]
 
 max_four = 0
-for i in range(len(grid)):
-    row = grid[i]
-    for j in range(len(grid) - 3):
-        subrow = row[j:j+4]
-        max_four = max(functools.reduce((lambda x, y: x * y), subrow), max_four)
+
+
 
 for i in range(len(grid)):
     for j in range(len(grid) - 3):
-        subcol = [grid[k][i] for k in range(j,j+4)]
+        subrow = [grid[i][j + k] for k in range(4)]
+        max_four = max(functools.reduce((lambda x, y: x * y), subrow), max_four)
+
+for i in range(len(grid) - 3):
+    for j in range(len(grid)):
+        subcol = [grid[i + k][j] for k in range(4)]
         max_four = max(functools.reduce((lambda x, y: x * y), subcol), max_four)
 
 for i in range(len(grid) - 3):
@@ -40,7 +42,7 @@ for i in range(len(grid) - 3):
         diag = [grid[i + k][j + k] for k in range(4)]
         max_four = max(functools.reduce((lambda x, y: x * y), diag), max_four)
 
-for i in range(3, len(grid))[::-1]:
+for i in range(len(grid))[::-1]:
     for j in range(len(grid) - 3):
         diag = [grid[i - k][j + k] for k in range(4)]
         max_four = max(functools.reduce((lambda x, y: x * y), diag), max_four)
