@@ -2,6 +2,8 @@
 
 import math
 
+import functools
+
 def num_divisors(x):
     total = 0
     for i in range(1, ((x+1) // 2) + 1):

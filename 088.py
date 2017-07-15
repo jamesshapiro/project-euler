@@ -5,8 +5,24 @@
 
 import naive_prime_test as t
 
-def is_product_sum_number(n):
-    return 1
+upper_bound = 13001
+
+def is_ps_number_for_k(k, n):
+    factorizations = factorization_book[n]
+    for factorization in factorizations:
+        if len(factorization) == 1:
+            continue
+        if len(factorization) <= k and n - sum(factorization) == k - len(factorization):
+            return True
+    return False
+
+def minimal_ps_number_for_k(k):
+    n = k
+    while not is_ps_number_for_k(k, n):
+        n += 1
+    return n
+
+factorization_book = {}
 
 primes = []
 
@@ -24,40 +40,32 @@ def get_prime_factorization_of_(n):
         if n_copy == 1:
             return prime_factors
 
-all_prime_factors = [get_prime_factorization_of_(n) for n in range(2,12001)]
+all_prime_factors = [get_prime_factorization_of_(n) for n in range(2, upper_bound)]
 
-for (idx, list_of_prime_factors) in enumerate(all_prime_factors):
-    if sum(list_of_prime_factors) == idx + 1:
-        print(idx + 1, list_of_prime_factors)
+for i in range(upper_bound-2):
+    n = i + 2
+    if t.is_prime(n):
+        factorization_book[n] = {(n,)}
+        continue
+    factorizations = set()
+    for pf in set(all_prime_factors[i]):
+        factors_without_pf = n // pf
+        factorizations_wo_pf = factorization_book[factors_without_pf]
+        for factorization_wo_pf in factorizations_wo_pf:
+            lst = sorted([pf] + list(factorization_wo_pf))
+            factorizations.add(tuple(lst))
+            fact_wo_pf_as_list = list(factorization_wo_pf)
+            for index in range(len(fact_wo_pf_as_list)):
+                lst = fact_wo_pf_as_list[:]
+                lst[index] *= pf
+                factorizations.add(tuple(sorted(lst)))
+    factorization_book[n] = factorizations
 
-print(all_prime_factors[-1])
+min_nums = set()
+for i in range(2, 12001):
+    min_num = minimal_ps_number_for_k(i)
+    print(i, min_num)
+    min_nums.add(min_num)
 
+print(sum(min_nums))
 
-"""
-Hilariously naive approach: build up all possible non-empty 
-additive subsets, then for each integer, see if any of its 
-subsets has a product equal to the integer.
-
-sx_array = [ [ ],
-             [ ],
-             [(1,1)],
-             [(1,1,1), (1, 2)]
-]
-
-def fill_next_entry():
-    n = len(sx_array)
-    n_minus_one = sx_array[-1]
-    new_set_of_sets = set()
-    for partition in n_minus_one:
-        for index in range(len(partition)):
-            new_entry = list(partition)
-            new_entry[index] += 1
-            new_set_of_sets.add(tuple(sorted(new_entry)))
-    new_set_of_sets.add(tuple([1 for x in range(n)]))
-    sx_array.append(new_set_of_sets)
-    return len(new_set_of_sets)
-#    print(new_set_of_sets)
-
-for i in range(12001):
-    print(i, fill_next_entry())
-"""
