@@ -9,7 +9,6 @@ def prime_divisors(n):
     return [prime for prime in primes if n % prime == 0]
 
 def euler_totient(n):
-    print(n)
     totient = n
     for prime in prime_divisors(n):
         totient = totient // prime
