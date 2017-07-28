@@ -4,4 +4,4 @@ import math
 
 one_hundred_f = math.factorial(100)
 string = str(one_hundred_f)
-print(sum(int(x) for x in string))
+print(sum(int(digit) for digit in string))

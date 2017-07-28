@@ -9,13 +9,10 @@ def proper_divisors(x):
             divs.append(i)
     return divs
 
-def dn(x):
-    return sum(proper_divisors(x))
+def d(n):
+    return sum(proper_divisors(n))
 
-def is_amicable_number(x):
-    return x == dn(dn(x)) and dn(x) != x
+def is_amicable_number(n):
+    return n == d(d(n)) and n != d(n)
 
-print(is_amicable_number(284))
-print(is_amicable_number(220))
-      
 print(sum(x for x in range(1,10000) if is_amicable_number(x)))
