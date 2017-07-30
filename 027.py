@@ -3,7 +3,7 @@
 import math
 import itertools
 
-def get_run(a, b):
+def get_run_length(a, b):
     i = 0
     while is_prime(i**2 + a*i + b):
         i += 1
@@ -23,9 +23,8 @@ max_pair = ()
 max_run = 0
 pairs = itertools.combinations_with_replacement(range(-1000,1001), 2)
 for pair in pairs:
-    a = pair[0]
-    b = pair[1]
-    run = get_run(a, b)
+    (a, b) = pair
+    run = get_run_length(a, b)
     if run > max_run:
         max_run = run
         max_pair = (a, b)
